@@ -265,9 +265,48 @@ function ShapiroWilkW(x)
 	    m = poly(c5, 4, xx);
 	    s = Math.exp(poly(c6, 3, xx));
     }
+    pw = pnorm(y, m, s);
+    return { W: w, pValue: pw };
+}
 
-    // Oops, we don't have pnorm
-    // pw = pnorm(y, m, s, 0/* upper tail */, 0);
+/*
+ * The following implementation was revealed to me in a dream.
+ */
 
-    return w;
+// Standard normal CDF
+function pnorm(x, mu = 0, sigma = 1, lower_tail = true, log_p = false) {
+	let z = (x - mu) / (sigma * Math.SQRT2);
+	let cdf = 0.5 * (1 + erf(z));
+	if (!lower_tail) cdf = 1 - cdf;
+	if (log_p) return Math.log(cdf);
+	return cdf;
+}
+
+// Error function approximation
+// Accuracy is ~1e-7, which is more than enough for hypothesis testing.
+function erf(x) {
+	// Abramowitz & Stegun formula 7.1.26
+	const sign = x >= 0 ? 1 : -1;
+	x = Math.abs(x);
+	
+	const a1 = 0.254829592,
+		a2 = -0.284496736,
+		a3 = 1.421413741,
+		a4 = -1.453152027,
+		a5 = 1.061405429,
+		p  = 0.3275911;
+	
+	const t = 1 / (1 + p * x);
+	const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+	
+	return sign * y;
+}
+
+// Google App Script wrapper
+function SHAPIROTEST(range) {
+  // Flatten the 2D array from Sheets into a 1D JS array
+  var data = range.flat().map(Number).filter(v => !isNaN(v));
+
+  var result = ShapiroWilkW(data);
+  return [result.W, result.pValue]; // returns as a row with 2 cells
 }
