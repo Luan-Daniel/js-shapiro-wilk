@@ -17,7 +17,7 @@ Note: Like all statistical tests, the Shapiro-Wilk test is sensitive to sample s
 
 The main functions are:
 
-## 1. `ShapiroWilk(data)`
+### 1. `ShapiroWilk(data)`
 This is the **core function** that computes the Shapiro-Wilk test.
 
 ### 2. `SHAPIROTEST(cell_range)`
