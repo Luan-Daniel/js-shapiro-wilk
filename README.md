@@ -14,3 +14,11 @@ It evaluates the null hypothesis that a sample $x_1, x_2, \dots, x_n$ comes from
   - If $p ≤ 0.05$, we reject the null hypothesis → the data is not normally distributed.
 
 Note: Like all statistical tests, the Shapiro-Wilk test is sensitive to sample size. Very large samples may detect trivial deviations, while very small samples may lack power.
+
+The main functions are:
+
+## 1. `ShapiroWilk(data)`
+This is the **core function** that computes the Shapiro-Wilk test.
+
+### 2. `SHAPIROTEST(cell_range)`
+This is a **wrapper function** for Google AppScript. Let you apply this test in Google Sheets ranges.
