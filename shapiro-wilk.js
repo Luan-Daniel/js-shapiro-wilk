@@ -103,7 +103,7 @@ function sign(x) {
     return x > 0 ? 1 : -1;
 }
 
-function ShapiroWilkW(x)
+function ShapiroWilk(x)
 {
     function poly(cc, nord, x)
     {
@@ -307,6 +307,6 @@ function SHAPIROTEST(range) {
   // Flatten the 2D array from Sheets into a 1D JS array
   var data = range.flat().map(Number).filter(v => !isNaN(v));
 
-  var result = ShapiroWilkW(data);
+  var result = ShapiroWilk(data);
   return [result.W, result.pValue]; // returns as a row with 2 cells
 }
